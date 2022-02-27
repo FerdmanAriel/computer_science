@@ -46,26 +46,73 @@ def num_different_letters(text):
 
 #Question 4d
 def most_frequent(text):
+
+    alphabet = "abcdefghijklmnopqrstuvwxyz"
+    dictionary = {}
+    dictionary["white_space"] = 0
+
+    for letters in alphabet:
+        dictionary[letters] = 0
+
+    for letters in text:
+        if letters == " ":
+            dictionary["white_space"] += 1
+        else:
+            dictionary[letters] += 1
+
+    dictionary = sorted(dictionary.items(), 
+                        reverse=True, 
+                        key=lambda x: x[1])
     
-    most_frequent = ""
-    chars_counter = 0
-    chars = "abcdefghijklmnopqrstuvwxyz"
-    for char in chars:
-        current_chars_counter = 0
-        for i in text:
-            if i == char:
-                current_chars_counter += 1
-        if current_chars_counter > chars_counter:
-            most_frequent = char
-    print( most_frequent )
+    most_frequent = dictionary[0][0]
+    if most_frequent == "white_space":
+        print("' '")
+    else:
+        print( "'" + most_frequent + "'" )
 
 #Question 4e
 def kth_order(text, k):
-    pass
+    
+    alphabet = "abcdefghijklmnopqrstuvwxyz"
+    dictionary = {}
+    dictionary["white_space"] = 0
+
+    for letters in alphabet:
+        dictionary[letters] = 0
+
+    for letters in text:
+        if letters == " ":
+            dictionary["white_space"] += 1
+        else:
+            dictionary[letters] += 1
+
+    dictionary = sorted(dictionary.items(), 
+                        reverse=True, 
+                        key=lambda x: x[1])
+    
+    print(dictionary)
+    most_frequent = dictionary[k-1][0]
+    if most_frequent == "white_space":
+        print("' '")
+    else:
+        print( "'" + most_frequent + "'" )
+        
 
 #Question 5
 def calc(expression):
-    pass
+
+    expression = [ char for char in expression.split("'") if char != ""]
+    current_expression = expression[0]
+    
+    for i in range(len(expression)):
+        if expression[i] == "*":
+            current_expression *= int(expression[i+1])
+        elif expression[i] == "+":
+            current_expression += expression[i+1]
+        elif expression[i] == "-":
+            current_expression.replace(expression[i+1],"")
+
+    print("'"+current_expression+"'")
 
 ########
 # Tester
@@ -111,3 +158,5 @@ def test():
         print("error in calc - 5")
     if calc("'a'*'2'+'b'*'2'-'c'") != "aabaab":
         print("error in calc - 6")
+
+test()
