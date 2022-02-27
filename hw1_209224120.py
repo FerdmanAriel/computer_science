@@ -42,34 +42,21 @@ def num_different_letters(text):
     for char in text:
         if char in chars and char not in chars_group:
             chars_group += char
-    print( len(chars_group) )
+    return len(chars_group)
 
 #Question 4d
 def most_frequent(text):
 
-    alphabet = "abcdefghijklmnopqrstuvwxyz"
     dictionary = {}
-    dictionary["white_space"] = 0
 
-    for letters in alphabet:
-        dictionary[letters] = 0
-
-    for letters in text:
-        if letters == " ":
-            dictionary["white_space"] += 1
+    for i in range(len(text)):   
+        if text[i] in dictionary.keys():
+            dictionary[text[i]] += 1
         else:
-            dictionary[letters] += 1
+            dictionary[text[i]] = 1
 
-    dictionary = sorted(dictionary.items(), 
-                        reverse=True, 
-                        key=lambda x: x[1])
-    
-    most_frequent = dictionary[0][0]
-    if most_frequent == "white_space":
-        print("' '")
-    else:
-        print( "'" + most_frequent + "'" )
 
+    return max(dictionary, key = dictionary.get)
 #Question 4e
 def kth_order(text, k):
     
@@ -90,12 +77,11 @@ def kth_order(text, k):
                         reverse=True, 
                         key=lambda x: x[1])
     
-    print(dictionary)
     most_frequent = dictionary[k-1][0]
     if most_frequent == "white_space":
-        print("' '")
+        pass
     else:
-        print( "'" + most_frequent + "'" )
+        return most_frequent
         
 
 #Question 5
@@ -110,9 +96,9 @@ def calc(expression):
         elif expression[i] == "+":
             current_expression += expression[i+1]
         elif expression[i] == "-":
-            current_expression.replace(expression[i+1],"")
+            current_expression = current_expression.replace(expression[i+1],"")
 
-    print("'"+current_expression+"'")
+    return current_expression
 
 ########
 # Tester
