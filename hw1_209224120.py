@@ -60,28 +60,17 @@ def most_frequent(text):
 #Question 4e
 def kth_order(text, k):
     
-    alphabet = "abcdefghijklmnopqrstuvwxyz"
     dictionary = {}
-    dictionary["white_space"] = 0
 
-    for letters in alphabet:
-        dictionary[letters] = 0
-
-    for letters in text:
-        if letters == " ":
-            dictionary["white_space"] += 1
+    for i in range(len(text)):   
+        if text[i] in dictionary.keys():
+            dictionary[text[i]] += 1
         else:
-            dictionary[letters] += 1
+            dictionary[text[i]] = 1
 
-    dictionary = sorted(dictionary.items(), 
-                        reverse=True, 
-                        key=lambda x: x[1])
+    dictionary = sorted(dictionary.items(), reverse=True, key=lambda x: x[1])
     
-    most_frequent = dictionary[k-1][0]
-    if most_frequent == "white_space":
-        pass
-    else:
-        return most_frequent
+    return dictionary[k-1][0]
         
 
 #Question 5
@@ -144,5 +133,3 @@ def test():
         print("error in calc - 5")
     if calc("'a'*'2'+'b'*'2'-'c'") != "aabaab":
         print("error in calc - 6")
-
-test()
