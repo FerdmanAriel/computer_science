@@ -1,4 +1,3 @@
-
 def max_even_seq(n):
     
     counter = 0
@@ -10,7 +9,7 @@ def max_even_seq(n):
             current_counter += 1
         else:   
             current_counter = 0
-            
+
         if current_counter > counter:
             counter = current_counter
             
