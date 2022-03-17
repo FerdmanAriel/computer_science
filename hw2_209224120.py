@@ -137,66 +137,202 @@ def pad_rev_lists(bin1, bin2):
 
 
 def add(bin1, bin2):
-    pass  # replace with your code
+    if len(bin1) >= len(bin2):
+        binary = bin1
+        add = bin2
+    else:
+        binary = bin2
+        add = bin1
+    binary_list = [x for x in binary[::-1]]
+    add_list = [x for x in add[::-1]]
+
+    ans = []
+    carry = "0"
+
+    for i in range(len(add_list)):
+        if add_list[i] == "0" and binary_list[i] == "0" and carry == "0":
+            ans.append("0")
+        elif add_list[i] == "0" and binary_list[i] == "0" and carry == "1":
+            ans.append("1")
+            carry = "0"
+        elif add_list[i] == "1" and binary_list[i] == "0" and carry == "0":
+            ans.append("1")
+        elif add_list[i] == "0" and binary_list[i] == "1" and carry == "0":
+            ans.append("1")
+        elif add_list[i] == "0" and binary_list[i] == "1" and carry == "1":
+            ans.append("0")
+        elif add_list[i] == "1" and binary_list[i] == "0" and carry == "1":
+            ans.append("0")
+        elif add_list[i] == "1" and binary_list[i] == "1" and carry == "0":
+            ans.append("0")
+            carry = "1"
+        elif add_list[i] == "1" and binary_list[i] == "1" and carry == "1":
+            ans.append("1")
+            
+    for i in range(len(add_list),len(binary_list)):
+        if carry == "1" and binary_list[i] == "1":
+            ans.append("0")
+        elif carry == "1" and binary_list[i] == "0":
+            ans.append("1")
+            carry = "0"
+        elif carry == "0" and binary_list[i] == "0":
+            ans.append("0")
+        elif carry == "0" and binary_list[i] == "1":
+            ans.append("1")
+            
+    if carry == "1":
+        ans.append("1")
+                    
+    return ''.join(ans[::-1])
 
 
 # Q3c
 def pow_two(binary, power):
-    pass  # replace with your code
+    return binary + "0" * power
 
 
 # Q3d
 def div_two(binary, power):
-    pass  # replace with your code
-
+    
+    result = binary[:-power]
+    
+    if result == "":
+        return "0"
+    else:
+        return result
 
 # Q3e
 def leq(bin1, bin2):
-    pass  # replace with your code
+    return bin1 <= bin2
 
 
 # Q3f
 def to_decimal(binary):
-    pass  # replace with your code
-
+    result = 0
+    for i in range(len(binary)):
+        print(result)
+        if binary[-(i+1)] == "1":
+            result += 2**i
+    return result
 
 ##############
 # QUESTION 4 #
 ##############
 # Q4a
 def lychrel_loops(n):
-    pass  # replace with your code
 
+    count = 0
+    while str(n) != str(n)[ : :-1]:
+        n_reverse = int(str(n)[ : :-1])
+        n = n + n_reverse
+        count += 1
+    return count
 
 # Q4b
 def is_lychrel_suspect(n, t):
-    pass  # replace with your code
 
+    count = 0
+    for i in range(t):
+        n_reverse = int(str(n)[ : :-1])
+        n = n + n_reverse
+        count += 1
+    return str(n) != str(n)[ : :-1]
 
 # Q4c
 def lychrel_sort(numbers, t):
-    pass  # replace with your code
 
+    is_lychrel_suspect_dict = {}
+    is_not_lychrel_suspect_dict = {}
+
+    for number in numbers:
+        is_suspect = True
+        count = 0
+        n = number
+        while is_suspect and count < t:
+            n_reverse = int(str(n)[ : :-1])
+            n = n + n_reverse
+            is_suspect = str(n) != str(n)[ : :-1]
+            count += 1
+            
+        if is_suspect :
+            is_lychrel_suspect_dict[number] = count
+        else:
+            is_not_lychrel_suspect_dict[number] = count
+
+    is_lychrel_suspect_dict_sorted = dict(sorted(is_lychrel_suspect_dict.items(), key=lambda item: item[1]))
+    is_not_lychrel_suspect_dict_sorted = dict(sorted(is_not_lychrel_suspect_dict.items(), key=lambda item: item[1]))
+    
+    is_lychrel_suspect_dict_sorted_keys = list(is_lychrel_suspect_dict_sorted)
+    is_not_lychrel_suspect_dict_sorted_keys = list(is_not_lychrel_suspect_dict_sorted)
+
+    return is_not_lychrel_suspect_dict_sorted_keys + is_lychrel_suspect_dict_sorted_keys
 
 ##############
 # QUESTION 5 #
 ##############
 # Q5a
 def calculate_grades_v1(grades):
-    pass  # replace with your code
+    
+    calculated_grades_list = []
+    for student_grades in grades:
+        
+        home_assignment_average = sum(student_grades[1]) / len(student_grades[1])
+
+        if home_assignment_average > student_grades[0]:
+            calculated_grades_list.append(0.9 * student_grades[0] + 0.1 * home_assignment_average)
+        else:
+            calculated_grades_list.append(student_grades[0])
+            
+    return(calculated_grades_list)
 
 # Q5b
 def calculate_grades_v2(grades, w, f):
-    pass  # replace with your code
+    
+    calculated_grades_list = []
+    factor = f
+    
+    for student_grades in grades:
 
+        student_test_grade = student_grades[0]
+        student_test_grade_factor = factor(student_test_grade) 
+
+        home_assignment_average = sum(student_grades[1]) / len(student_grades[1])
+
+        final_grade = student_test_grade_factor * w + home_assignment_average * (1 - w)
+
+        calculated_grades_list.append(final_grade)
+                
+    return calculated_grades_list
+        
 # Q5c_i
 def calculate_grades_v3(grades, w):
-    pass  # replace with your code
 
+    calculated_grades_list = []
+    
+    for student_grades in grades:
+
+        student_test_grade = student_grades[0] 
+        home_assignment_average = ( sum(student_grades[1]) - min(student_grades[1]) ) / 2
+        final_grade = student_test_grade * w + home_assignment_average * (1 - w)
+
+        calculated_grades_list.append(final_grade)
+
+    return calculated_grades_list
 # Q5c_ii
 def calculate_w(grades, target_average):
-    pass  # replace with your code
+    
+    number_of_student = len(grades)
 
+    test_grades_sum = 0
+    home_assignment_grades_sum = 0
+    
+    for student_grades in grades:
+
+        test_grades_sum += student_grades[0]
+        home_assignment_grades_sum += ( sum(student_grades[1]) - min(student_grades[1]) ) / 2
+
+    weight = ( ( target_average * number_of_student) - home_assignment_grades_sum ) / ( test_grades_sum - home_assignment_grades_sum )
+    return weight
 
 ##########
 # Tester #
