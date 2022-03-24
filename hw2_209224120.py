@@ -13,26 +13,21 @@ import random # loads python's random module in order to use random.random() in 
 ##############
 #  Q1a
 def divisors(n):
-    
-    list = []
-    
-    for i in range(1,n+1//2):
-        if n%i==0:
-            list.append(i)
         
-    return list
+    return [ i for i in range(1,n+1//2) if n%i==0 ]
 
 #  Q1b
 def perfect_numbers(n):
     
-    list = []
+    perfect_numbers_list = []
     i = 1
     
-    while len(list) < n:
+    while len(perfect_numbers_list) < n:
+        
         if sum(divisors(i)) == i:
-            list.append(i)
+            perfect_numbers_list.append(i)
         i += 1
-    return list
+    return perfect_numbers_list
 
 #  Q1c
 def abundant_density(n):
@@ -63,6 +58,7 @@ def semi_perfect_4(n):
 ##############
 # Q2a
 def coin():
+    
     return random.random() < 0.5
 
 

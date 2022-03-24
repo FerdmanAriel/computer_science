@@ -4,6 +4,7 @@ def max_even_seq(n):
     current_counter = 0
     
     while (n//10 != 0) or (n != 0):
+        print(n)
         
         if n%2 == 0:
             current_counter += 1
@@ -23,3 +24,5 @@ def max_even_seq(n):
 def test():
     if max_even_seq(23300247524689) != 4:
         print("error in max_even_seq")
+
+print(max_even_seq(3**1000))
